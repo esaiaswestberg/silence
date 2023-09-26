@@ -1,0 +1,21 @@
+{
+  "name": "silence",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "dev-types": "tsc --noEmit --watch",
+    "start": "tsx src/app.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "authors": [
+    "Esaias Westberg <esaias@westbergs.se>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "tsx": "^3.13.0",
+    "typescript": "^5.2.2"
+  }
+}
