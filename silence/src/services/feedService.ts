@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
-import RSSParser from 'rss-parser'
+import RSSParser, { Item } from 'rss-parser'
+import Episode from '../types/Episode'
 import type FeedUrl from '../types/FeedUrl'
 
 export default class FeedService {
@@ -28,5 +29,18 @@ export default class FeedService {
     if (!bDate) return 1
 
     return new Date(bDate).getTime() - new Date(aDate).getTime()
+  }
+
+  public static parseFeedEpisode(feedName: string, episode: Item): Episode {
+    const episodeId = episode.guid || episode.title || episode.link || episode.isoDate || '---'
+    return { feedName, episodeId, meta: episode }
+  }
+
+  public static mapFeedEpisodes(feedName: string, feedEpisodes: Item[]) {
+    return feedEpisodes.map((episode) => FeedService.parseFeedEpisode(feedName, episode))
+  }
+
+  public static getEpisodeUrl(item: Item) {
+    return item.enclosure?.url || item.link
   }
 }

@@ -2,13 +2,14 @@ import fs from 'fs/promises'
 import type { Item } from 'rss-parser'
 import Episode from '../types/Episode'
 import type FeedUrl from './../types/FeedUrl.d'
+import FeedService from './feedService'
 
 export default class DownloadService {
   private static STORAGE_PATH = process.env.STORAGE_PATH
   private static SIMULTANEOUS_DOWNLOADS = parseInt(process.env.SIMULTANEOUS_DOWNLOADS ?? '3')
 
   public static async getMissingEpisodes(feedUrl: FeedUrl, feedEpisodes: Item[]) {
-    const availableEpisodes = DownloadService.mapFeedEpisodes(feedUrl.name, feedEpisodes)
+    const availableEpisodes = FeedService.mapFeedEpisodes(feedUrl.name, feedEpisodes)
     const downloadedEpisodes = await DownloadService.getStoredEpisodes(feedUrl.name)
 
     return availableEpisodes.filter((episode) => {
@@ -28,7 +29,7 @@ export default class DownloadService {
     const episodeMeta = episode.meta
     if (!episodeMeta) return console.log('No meta for episode', episode)
 
-    const episodeUrl = DownloadService.getItemUrl(episodeMeta)
+    const episodeUrl = FeedService.getEpisodeUrl(episodeMeta)
     if (!episodeUrl) return console.log('No url for episode', episode)
 
     const episodeExtension = DownloadService.getUrlExtension(episodeUrl)
@@ -75,22 +76,9 @@ export default class DownloadService {
     return `${DownloadService.getFeedPath(episode.feedName)}${episode.episodeId}/`
   }
 
-  private static parseEpisodePath(episodePath: string) {
+  private static parseEpisodePath(episodePath: string): Episode {
     const [feedName, episodeId] = episodePath.split('/').slice(-2)
     return { feedName, episodeId, meta: {} }
-  }
-
-  private static parseFeedEpisode(feedName: string, episode: Item): Episode {
-    const episodeId = episode.guid || episode.title || episode.link || episode.isoDate || '---'
-    return { feedName, episodeId, meta: episode }
-  }
-
-  private static mapFeedEpisodes(feedName: string, feedEpisodes: Item[]) {
-    return feedEpisodes.map((episode) => DownloadService.parseFeedEpisode(feedName, episode))
-  }
-
-  private static getItemUrl(item: Item) {
-    return item.enclosure?.url || item.link
   }
 
   private static getUrlExtension(url: string) {
