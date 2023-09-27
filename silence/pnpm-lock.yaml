@@ -16,6 +16,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.7.0
     version: 20.7.0
+  '@types/xml2js':
+    specifier: ^0.4.12
+    version: 0.4.12
   tsx:
     specifier: ^3.13.0
     version: 3.13.0
@@ -225,6 +228,12 @@ packages:
 
   /@types/node@20.7.0:
     resolution: {integrity: sha512-zI22/pJW2wUZOVyguFaUL1HABdmSVxpXrzIqkjsHmyUjNhPoWM1CKfvVuXfetHhIok4RY573cqS0mZ1SJEnoTg==}
+    dev: true
+
+  /@types/xml2js@0.4.12:
+    resolution: {integrity: sha512-CZPpQKBZ8db66EP5hCjwvYrLThgZvnyZrPXK2W+UI1oOaWezGt34iOaUCX4Jah2X8+rQqjvl9VKEIT8TR1I0rA==}
+    dependencies:
+      '@types/node': 20.7.0
     dev: true
 
   /buffer-from@1.1.2:

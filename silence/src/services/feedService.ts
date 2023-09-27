@@ -18,4 +18,15 @@ export default class FeedService {
     const feedConfigJSON = await fs.readFile(FeedService.CONFIG_PATH, 'utf-8')
     return JSON.parse(feedConfigJSON)
   }
+
+  public static compareItems(a: RSSParser.Item, b: RSSParser.Item) {
+    const aDate = a.isoDate || a.pubDate
+    const bDate = b.isoDate || b.pubDate
+
+    if (!aDate && !bDate) return 0
+    if (!aDate) return -1
+    if (!bDate) return 1
+
+    return new Date(bDate).getTime() - new Date(aDate).getTime()
+  }
 }
