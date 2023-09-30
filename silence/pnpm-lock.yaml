@@ -8,9 +8,15 @@ dependencies:
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
+  podparse:
+    specifier: ^1.5.1
+    version: 1.5.1
   rss-parser:
     specifier: ^3.13.0
     version: 3.13.0
+  zod:
+    specifier: ^3.22.2
+    version: 3.22.2
 
 devDependencies:
   '@types/node':
@@ -226,6 +232,11 @@ packages:
     dev: true
     optional: true
 
+  /@rgrove/parse-xml@3.0.0:
+    resolution: {integrity: sha512-GFGDywRwGbuGq9yeL8wTjjLOsZ5Ps4O5tQ71eDcAfaZrZeA7Oe8QJzrnmFgplWtnoaBIBaFBB3n5Ht9iU4jLLw==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /@types/node@20.7.0:
     resolution: {integrity: sha512-zI22/pJW2wUZOVyguFaUL1HABdmSVxpXrzIqkjsHmyUjNhPoWM1CKfvVuXfetHhIok4RY573cqS0mZ1SJEnoTg==}
     dev: true
@@ -293,6 +304,13 @@ packages:
       resolve-pkg-maps: 1.0.0
     dev: true
 
+  /podparse@1.5.1:
+    resolution: {integrity: sha512-AuLVWLcezFi4i3882xBu4vaS57lB/DvFoRppnB6OgIdWmN54iRIVKFhwuL1sxdRosN0+znez3NRxFY9TfjyNCA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@rgrove/parse-xml': 3.0.0
+    dev: false
+
   /resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
     dev: true
@@ -348,4 +366,8 @@ packages:
   /xmlbuilder@11.0.1:
     resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
     engines: {node: '>=4.0'}
+    dev: false
+
+  /zod@3.22.2:
+    resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: false

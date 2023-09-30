@@ -1,46 +1,23 @@
 import fs from 'fs/promises'
-import RSSParser, { Item } from 'rss-parser'
-import Episode from '../types/Episode'
-import type FeedUrl from '../types/FeedUrl'
+import getPodcastFromFeed from 'podparse'
+import FeedConfigSchema from '../schemas/FeedConfig'
 
 export default class FeedService {
-  private static CONFIG_PATH = `${process.env.CONFIG_PATH}/feeds.json`
+  public static async getPodcastFeedsFromConfig() {
+    const feedConfigPath = `${process.env.CONFIG_PATH}/feeds.json`
+    const feedConfigBuffer = await fs.readFile(feedConfigPath)
 
-  private static parser = new RSSParser()
-
-  public static async getFeedData(feed: FeedUrl) {
-    const response = await fetch(feed.url, { headers: { 'User-Agent': 'Silence' } })
-
-    const xml = await response.text()
-    return FeedService.parser.parseString(xml)
+    const feedConfigJson = JSON.parse(feedConfigBuffer.toString())
+    return FeedConfigSchema.parse(feedConfigJson)
   }
 
-  public static async getFeeds(): Promise<FeedUrl[]> {
-    const feedConfigJSON = await fs.readFile(FeedService.CONFIG_PATH, 'utf-8')
-    return JSON.parse(feedConfigJSON)
+  public static async fetchPodcastFeedXml(feedUrl: string) {
+    const feedResponse = await fetch(feedUrl)
+    const feedText = await feedResponse.text()
+    return feedText
   }
 
-  public static compareItems(a: RSSParser.Item, b: RSSParser.Item) {
-    const aDate = a.isoDate || a.pubDate
-    const bDate = b.isoDate || b.pubDate
-
-    if (!aDate && !bDate) return 0
-    if (!aDate) return -1
-    if (!bDate) return 1
-
-    return new Date(bDate).getTime() - new Date(aDate).getTime()
-  }
-
-  public static parseFeedEpisode(feedName: string, episode: Item): Episode {
-    const episodeId = episode.guid || episode.title || episode.link || episode.isoDate || '---'
-    return { feedName, episodeId, meta: episode }
-  }
-
-  public static mapFeedEpisodes(feedName: string, feedEpisodes: Item[]) {
-    return feedEpisodes.map((episode) => FeedService.parseFeedEpisode(feedName, episode))
-  }
-
-  public static getEpisodeUrl(item: Item) {
-    return item.enclosure?.url || item.link
+  public static parsePodcastFeedXml(feedXml: string) {
+    return getPodcastFromFeed(feedXml)
   }
 }

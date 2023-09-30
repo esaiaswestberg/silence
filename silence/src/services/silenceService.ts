@@ -1,25 +1,20 @@
-import DownloadService from './downloadService'
+import { Feed } from '../schemas/FeedConfig'
 import FeedService from './feedService'
 
 export default class SilenceService {
   public static async initialize() {
-    await SilenceService.lookForNewEpisodes()
+    await SilenceService.updateFeeds()
   }
 
-  private static async lookForNewEpisodes() {
-    const feeds = await FeedService.getFeeds()
+  private static async updateFeeds() {
+    const feeds = await FeedService.getPodcastFeedsFromConfig()
+    const feedPromises = feeds.map(SilenceService.updateFeed)
+    await Promise.all(feedPromises)
+  }
 
-    for (const feed of feeds) {
-      const data = await FeedService.getFeedData(feed)
-      if (!data.items || data.items.length === 0) continue
-
-      const sortedItems = data.items.sort(FeedService.compareItems)
-      const newEpisodes = await DownloadService.getMissingEpisodes(feed, sortedItems)
-
-      console.log('Podcast:', feed.name)
-      console.log('Episodes To Download:', newEpisodes.length)
-
-      await DownloadService.downloadEpisodes(newEpisodes)
-    }
+  private static async updateFeed(feed: Feed) {
+    const feedXml = await FeedService.fetchPodcastFeedXml(feed.url)
+    const podcastFeed = FeedService.parsePodcastFeedXml(feedXml)
+    console.log(podcastFeed)
   }
 }
