@@ -22,7 +22,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@types/md5": "^2.3.3",
     "dotenv": "^16.3.1",
+    "md5": "^2.3.0",
     "podparse": "^1.5.1",
     "rss-parser": "^3.13.0",
     "zod": "^3.22.2"
