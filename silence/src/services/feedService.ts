@@ -1,6 +1,9 @@
 import fs from 'fs/promises'
-import getPodcastFromFeed from 'podparse'
+import md5 from 'md5'
+import getPodcastFromFeed, { Episode } from 'podparse'
 import FeedConfigSchema from '../schemas/FeedConfig'
+import ExpandedEpisode from '../types/ExpandedEpisode'
+import ExpandedPodcast from '../types/ExpandedPodcast'
 
 export default class FeedService {
   public static async getPodcastFeedsFromConfig() {
@@ -17,7 +20,21 @@ export default class FeedService {
     return feedText
   }
 
-  public static parsePodcastFeedXml(feedXml: string) {
-    return getPodcastFromFeed(feedXml)
+  public static parsePodcastFeedXml(feedXml: string): ExpandedPodcast {
+    const podcastFeed = getPodcastFromFeed(feedXml)
+
+    return {
+      ...podcastFeed,
+      episodes: podcastFeed.episodes.map(FeedService.getPodcastExpandedEpisode)
+    }
+  }
+
+  public static getPodcastExpandedEpisode(episodeMetadata: Episode): ExpandedEpisode {
+    const uniqueEpisodeData = episodeMetadata.guid || episodeMetadata.enclosure.url || episodeMetadata.pubDate || episodeMetadata.title
+
+    return {
+      id: md5(uniqueEpisodeData),
+      ...episodeMetadata
+    }
   }
 }

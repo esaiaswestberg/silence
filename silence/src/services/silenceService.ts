@@ -18,5 +18,6 @@ export default class SilenceService {
     const podcastFeed = FeedService.parsePodcastFeedXml(feedXml)
 
     StorageService.writePodcastMetadata(feed, podcastFeed.meta)
+    StorageService.writeManyEpisodeMetadata(feed, podcastFeed.episodes)
   }
 }
