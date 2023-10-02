@@ -37,6 +37,10 @@ export default class StorageService {
     return `${await StorageService.getEpisodeStoragePath(feedId, episodeId)}/metadata.json`
   }
 
+  public static async getEpisodeRawAudioPath(feedId: string, episode: ExpandedEpisode) {
+    return `${await StorageService.getEpisodeStoragePath(feedId, episode.id)}/raw.mp3`
+  }
+
   private static async getEpisodeStoragePath(feedId: string, episodeId: string) {
     const episodeStoragePath = `${await StorageService.getPodcastStoragePath(feedId)}/episodes/${episodeId}`
 

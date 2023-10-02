@@ -16,6 +16,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/got": "^9.6.12",
     "@types/node": "^20.7.0",
     "@types/xml2js": "^0.4.12",
     "tsx": "^3.13.0",
@@ -24,6 +25,7 @@
   "dependencies": {
     "@types/md5": "^2.3.3",
     "dotenv": "^16.3.1",
+    "got": "^13.0.0",
     "md5": "^2.3.0",
     "podparse": "^1.5.1",
     "rss-parser": "^3.13.0",

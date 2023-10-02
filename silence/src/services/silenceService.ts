@@ -1,4 +1,5 @@
 import { Feed } from '../schemas/FeedConfig'
+import DownloadService from './downloadService'
 import FeedService from './feedService'
 import StorageService from './storageService'
 
@@ -19,5 +20,6 @@ export default class SilenceService {
 
     StorageService.writePodcastMetadata(feed, podcastFeed.meta)
     StorageService.writeManyEpisodeMetadata(feed, podcastFeed.episodes)
+    DownloadService.downloadFeed(feed, podcastFeed.episodes)
   }
 }
