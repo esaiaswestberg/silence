@@ -27,7 +27,11 @@ export default class DownloadService {
   }
 
   public static async downloadFeed(feed: Feed, episodes: ExpandedEpisode[]) {
-    const episodePromises = episodes.map((episode, i) => DownloadService.downloadEpisode(feed, episode, i === 0 ? 1 : 0))
+    const episodePromises = episodes.map((episode, i) => {
+      const priority = new Date(episode.pubDate).getTime()
+      DownloadService.downloadEpisode(feed, episode, priority)
+    })
+
     return Promise.all(episodePromises)
   }
 
