@@ -45,6 +45,11 @@ export default class DownloadService {
     console.log(`Finished downloading ${feed.name} episode ${episode.title} (${episode.id})`)
   }
 
+  public static async isEpisodeDownloaded(feed: Feed, episode: ExpandedEpisode) {
+    const rawEpisodePath = await StorageService.getEpisodeRawAudioPath(feed.id, episode)
+    return existsSync(rawEpisodePath)
+  }
+
   private static async downloadFile(title: string, url: string, path: string, priority = 0) {
     const temporaryPath = `${path}.${Math.round(Math.random() * 100000)}.download`
     const downloadItem: DownloadItem = {
@@ -143,4 +148,4 @@ export default class DownloadService {
   }
 }
 
-setInterval(DownloadService.printDownloadStatus, 250)
+//setInterval(DownloadService.printDownloadStatus, 250)
