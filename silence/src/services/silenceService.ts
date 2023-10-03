@@ -5,13 +5,27 @@ import StorageService from './storageService'
 
 export default class SilenceService {
   public static async initialize() {
-    await SilenceService.updateFeeds()
+    SilenceService.startUpdateInterval()
+  }
+
+  private static startUpdateInterval() {
+    const updateInterval = parseInt(process.env.UPDATE_INTERVAL ?? '21600000')
+    setInterval(SilenceService.safeUpdateFeeds, updateInterval)
+    SilenceService.safeUpdateFeeds()
+  }
+
+  private static async safeUpdateFeeds() {
+    try {
+      await SilenceService.updateFeeds()
+    } catch (error) {
+      console.error('Error updating feeds', error)
+    }
   }
 
   private static async updateFeeds() {
     const feeds = await FeedService.getPodcastFeedsFromConfig()
     const feedPromises = feeds.map(SilenceService.updateFeed)
-    await Promise.all(feedPromises)
+    Promise.all(feedPromises).catch((error) => console.error('Error updating feeds', error))
   }
 
   private static async updateFeed(feed: Feed) {

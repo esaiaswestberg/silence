@@ -143,4 +143,4 @@ export default class DownloadService {
   }
 }
 
-setInterval(DownloadService.printDownloadStatus, 500)
+setInterval(DownloadService.printDownloadStatus, 250)
