@@ -6,7 +6,7 @@ import TranscriptionService from './transcriptionService'
 
 export default class SilenceService {
   public static async initialize() {
-    //SilenceService.startDownloadInterval()
+    SilenceService.startDownloadInterval()
     SilenceService.startTranscriptionInterval()
   }
 

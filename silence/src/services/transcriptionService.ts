@@ -10,8 +10,8 @@ export default class TranscriptionService {
   private static serviceHostname = process.env.TRANSCRIPTION_HOSTNAME
   private static language = process.env.TRANSCRIPTION_LANGUAGE
 
-  private static transcriptionQueue: { feed: Feed; episode: ExpandedEpisode; priority: number }[] = []
-  private static transcriptionInProgress = false
+  public static transcriptionQueue: { feed: Feed; episode: ExpandedEpisode; priority: number }[] = []
+  public static transcriptionInProgress = false
 
   public static async transcribeFeed(feed: Feed) {
     const episodesToTranscribe = await TranscriptionService.getUntranscribedDownloadedEpisodes(feed)
