@@ -42,13 +42,9 @@ export default class TranscriptionService {
   }
 
   private static async transcribeEpisode(feed: Feed, episode: ExpandedEpisode) {
-    console.log(`Transcribing ${feed.name} episode ${episode.title} (${episode.id})`)
-
     const rawEpisodePath = await StorageService.getEpisodeRawAudioPath(feed.id, episode)
     const transcriptionPath = await StorageService.getEpisodeTranscriptionPath(feed.id, episode.id)
-
     await TranscriptionService.transcribeFile(feed, episode, rawEpisodePath, transcriptionPath)
-    console.log(`Finished transcribing ${feed.name} episode ${episode.title} (${episode.id})`)
 
     TranscriptionService.transcriptionInProgress = false
     TranscriptionService.processTranscriptionQueue()

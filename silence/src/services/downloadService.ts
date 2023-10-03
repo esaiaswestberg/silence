@@ -27,7 +27,6 @@ export default class DownloadService {
 
     const downloadTitle = `${feed.name} - ${episode.title}`
     await DownloadService.downloadFile(downloadTitle, episodeUrl, rawEpisodePath, priority)
-    console.log(`Finished downloading ${feed.name} episode ${episode.title} (${episode.id})`)
   }
 
   public static async isEpisodeDownloaded(feed: Feed, episode: ExpandedEpisode) {
