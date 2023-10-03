@@ -1,30 +1,15 @@
 import { createWriteStream, existsSync } from 'fs'
 import { rename, unlink } from 'fs/promises'
 import got from 'got'
-import path from 'path'
 import { Feed } from '../schemas/FeedConfig'
 import DownloadItem from '../types/DownloadItem'
 import ExpandedEpisode from '../types/ExpandedEpisode'
 import StorageService from './storageService'
 
 export default class DownloadService {
-  private static maxConcurrentDownloads = parseInt(process.env.SIMULTANEOUS_DOWNLOADS ?? '5')
-  private static downloadQueue: DownloadItem[] = []
-  private static currentDownloads: DownloadItem[] = []
-
-  public static printDownloadStatus() {
-    let statusMsg = '========= Download Status ========='
-    statusMsg += `\nCurrent downloads: ${DownloadService.currentDownloads.length} / ${DownloadService.maxConcurrentDownloads}`
-    statusMsg += `\nDownload queue: ${DownloadService.downloadQueue.length}`
-    statusMsg += '\n======== Current Downloads ========'
-
-    DownloadService.currentDownloads.forEach((download, i) => {
-      statusMsg += `\n${i + 1}. ${download.title} (${path.basename(download.path)})`
-    })
-
-    console.clear()
-    console.info(statusMsg)
-  }
+  public static maxConcurrentDownloads = parseInt(process.env.SIMULTANEOUS_DOWNLOADS ?? '5')
+  public static downloadQueue: DownloadItem[] = []
+  public static currentDownloads: DownloadItem[] = []
 
   public static async downloadFeed(feed: Feed, episodes: ExpandedEpisode[]) {
     const episodePromises = episodes.map((episode, i) => {
@@ -42,7 +27,11 @@ export default class DownloadService {
 
     const downloadTitle = `${feed.name} - ${episode.title}`
     await DownloadService.downloadFile(downloadTitle, episodeUrl, rawEpisodePath, priority)
-    console.log(`Finished downloading ${feed.name} episode ${episode.title} (${episode.id})`)
+  }
+
+  public static async isEpisodeDownloaded(feed: Feed, episode: ExpandedEpisode) {
+    const rawEpisodePath = await StorageService.getEpisodeRawAudioPath(feed.id, episode)
+    return existsSync(rawEpisodePath)
   }
 
   private static async downloadFile(title: string, url: string, path: string, priority = 0) {
@@ -143,4 +132,4 @@ export default class DownloadService {
   }
 }
 
-setInterval(DownloadService.printDownloadStatus, 250)
+//setInterval(DownloadService.printDownloadStatus, 250)

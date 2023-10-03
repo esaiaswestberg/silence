@@ -37,4 +37,8 @@ export default class FeedService {
       ...episodeMetadata
     }
   }
+
+  public static sortPodcastEpisodesByPubDate(episodes: ExpandedEpisode[]) {
+    return episodes.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
+  }
 }

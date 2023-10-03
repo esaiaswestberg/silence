@@ -1,5 +1,4 @@
 services:
-
   # If you have issues with the Docker Compose, try this command instead:
   # docker run -d --gpus all -p 9000:9000 -e ASR_MODEL=base onerahmet/openai-whisper-asr-webservice:latest-gpu
   whisper:
@@ -10,6 +9,23 @@ services:
       - ASR_MODEL=medium
     deploy:
       resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    # If you have issues with the Docker Compose, try this command instead:
+    # docker run --gpus all -e HF_TOKEN=HUGGNING_FACE_ACCESS_TOKEN -p 8000:8000 ghcr.io/mistralai/mistral-src/vllm:latest --host 0.0.0.0 --model mistralai/Mistral-7B-v0.1
+    mistral:
+      image: ghcr.io/mistralai/mistral-src/vllm:latest
+      ports:
+        - 8000:8000
+      environment:
+        - HF_TOKEN=HUGGNING_FACE_ACCESS_TOKEN
+        - MODEL=mistralai/Mistral-7B-v0.1
+      deploy:
+        resources:
         reservations:
           devices:
             - driver: nvidia
