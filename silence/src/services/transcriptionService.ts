@@ -78,6 +78,6 @@ export default class TranscriptionService {
   }
 
   private static sortTranscriptionQueue() {
-    TranscriptionService.transcriptionQueue = TranscriptionService.transcriptionQueue.sort((a, b) => a.priority - b.priority)
+    TranscriptionService.transcriptionQueue = TranscriptionService.transcriptionQueue.sort((a, b) => b.priority - a.priority)
   }
 }
