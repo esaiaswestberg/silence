@@ -51,6 +51,9 @@ window.document.body.addEventListener('keypress', (e) => {
 
   if (e.key == 'E' && e.shiftKey) player.playbackRate += 0.25
   if (e.key == 'Q' && e.shiftKey) player.playbackRate -= 0.25
+
+  if (e.key == 'A' && e.shiftKey) player.currentTime -= 15
+  if (e.key == 'D' && e.shiftKey) player.currentTime += 15
 })
 
 player.volume = 0.5
