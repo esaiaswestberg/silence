@@ -20,7 +20,7 @@ class Model:
             loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"]
         )
 
-    def fit(__self__, x, y, x_val, y_val, epochs=10, batch_size=32):
+    def fit(__self__, x, y, x_val, y_val, epochs=5, batch_size=32):
         __self__.model.fit(
             x, y, epochs=epochs, batch_size=batch_size, validation_data=(x_val, y_val)
         )
