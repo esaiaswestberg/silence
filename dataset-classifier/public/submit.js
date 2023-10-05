@@ -9,6 +9,23 @@ const submit = async () => {
 
   const extraPositiveRanges = generateSponsoredRanges(segments, positiveRanges)
   const extraNegativeRanges = generateSponsorFreeRanges(segments, negativeRanges)
+
+  const response = await fetch('/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      positive: clearDuplicates(extraPositiveRanges.map((range) => range.text)),
+      negative: clearDuplicates(extraNegativeRanges.map((range) => range.text))
+    })
+  })
+
+  if (response.ok) {
+    alert('Submitted!')
+  } else {
+    alert('Something went wrong!')
+  }
 }
 
 const getSegments = () => {
@@ -103,3 +120,13 @@ const combineSegments = (segments, range) => ({
     .join(' '),
   selected: true
 })
+
+const clearDuplicates = (segments) => {
+  const seen = new Set()
+
+  return segments.filter((segment) => {
+    if (seen.has(segment)) return false
+    seen.add(segment)
+    return true
+  })
+}
