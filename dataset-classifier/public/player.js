@@ -30,6 +30,13 @@ player.addEventListener('timeupdate', async () => {
   })
 })
 
+player.addEventListener('ratechange', () => {
+  const rate = player.playbackRate
+  const speed = document.querySelector('#audio-speed')
+
+  speed.innerText = `x${rate.toFixed(2)}`
+})
+
 window.document.body.addEventListener('keypress', (e) => {
   if (e.key === ' ') {
     if (e.target == player) return
@@ -41,7 +48,9 @@ window.document.body.addEventListener('keypress', (e) => {
       player.pause()
     }
   }
+
+  if (e.key == 'E' && e.shiftKey) player.playbackRate += 0.25
+  if (e.key == 'Q' && e.shiftKey) player.playbackRate -= 0.25
 })
 
 player.volume = 0.5
-player.playbackRate = 2.0
