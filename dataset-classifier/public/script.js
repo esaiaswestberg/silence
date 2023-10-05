@@ -42,6 +42,8 @@ const selectEpisode = async () => {
   const segments = transcription.transcription.segments
   setTranscriptSegments(segments)
   highlightWordlist()
+
+  playEpisode(selectedPodcastId, selectedEpisodeId)
 }
 
 const setTranscriptSegments = (segments) => {

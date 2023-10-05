@@ -9,7 +9,7 @@ type Episode = { id: string; path: string; metadata: ExpandedEpisode }
 type Transcription = { episodeId: string; transcription: TranscriptionData }
 
 export default class Transcriptions {
-  private static podcastsPath = `../data/podcasts/`
+  public static podcastsPath = `../data/podcasts/`
   public static transcriptions: { podcast: Meta & { id: string }; episode: ExpandedEpisode; transcription: Transcription }[] = []
 
   constructor() {
