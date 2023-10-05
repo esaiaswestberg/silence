@@ -62,10 +62,35 @@ const setTranscriptSegments = (segments) => {
   }
 }
 
+let lastSelected = null
 const selectSegment = (e) => {
-  const segment = e.target
-  const selected = segment.getAttribute('aria-selected') === 'true'
-  segment.setAttribute('aria-selected', !selected)
+  e.preventDefault()
+
+  const segments = Array.from(transcriptContainer.querySelectorAll('.transcript-segment'))
+  const selected = e.target.getAttribute('aria-selected') === 'true'
+  const clickedIndex = segments.indexOf(e.target)
+
+  if (e.shiftKey && lastSelected) {
+    const lastIndex = segments.indexOf(lastSelected)
+
+    const start = Math.min(clickedIndex, lastIndex)
+    const end = Math.max(clickedIndex, lastIndex)
+
+    lastSelected = null
+    return selectSegmentRange(start, end, !selected)
+  }
+
+  lastSelected = e.target
+  selectSegmentRange(clickedIndex, clickedIndex, !selected)
+}
+
+const selectSegmentRange = (start, end, select = true) => {
+  const segments = Array.from(transcriptContainer.querySelectorAll('.transcript-segment'))
+
+  for (let i = start; i <= end; i++) {
+    const segment = segments[i]
+    segment.setAttribute('aria-selected', select)
+  }
 }
 
 const highlightWordlist = () => {

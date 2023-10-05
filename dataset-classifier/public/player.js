@@ -44,3 +44,4 @@ window.document.body.addEventListener('keypress', (e) => {
 })
 
 player.volume = 0.5
+player.playbackRate = 2.0

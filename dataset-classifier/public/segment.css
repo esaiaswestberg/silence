@@ -1,4 +1,5 @@
 .transcript-segment {
+  position: relative;
   box-sizing: border-box;
   border: 1px solid transparent;
   cursor: pointer;
@@ -8,14 +9,21 @@
   background-color: rgba(255, 200, 150, 0.5);
 }
 
-.transcript-segment:hover,
 .transcript-segment[aria-selected='true'] {
   background-color: rgba(255, 100, 100, 0.5);
   border-color: #ddd;
+}
+
+.transcript-segment:hover {
+  box-shadow: inset 0 0 0 2rem rgba(0, 162, 255, 0.2);
 }
 
 .transcript-segment.playing {
   box-shadow: inset 0 0 0 50px rgba(100, 255, 100, 0.5);
   border-bottom-color: #ffd900;
   border-bottom-width: 3px;
+}
+
+.transcript-segment.playing:hover {
+  box-shadow: inset 0 0 0 2rem rgba(100, 255, 100, 0.5), inset 0 0 0 2rem rgba(0, 162, 255, 0.5);
 }
