@@ -32,7 +32,6 @@ player.addEventListener('timeupdate', async () => {
 
 window.document.body.addEventListener('keypress', (e) => {
   if (e.key === ' ') {
-    console.log(e.target, player, e.target == player)
     if (e.target == player) return
     e.preventDefault()
 
