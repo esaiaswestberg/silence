@@ -25,6 +25,9 @@ class Model:
             x, y, epochs=epochs, batch_size=batch_size, validation_data=(x_val, y_val)
         )
 
+    def predict(__self__, x):
+        return __self__.model.predict(x)
+
     def weight_file_exists(__self__):
         return os.path.isfile("model/weights.h5")
 
