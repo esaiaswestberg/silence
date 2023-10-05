@@ -1,6 +1,6 @@
 const wordlist = [
   'Sponsor',
-  ' Ad',
+  ' Ad ',
   'Advertisement',
   'Promo',
   'Partnership',

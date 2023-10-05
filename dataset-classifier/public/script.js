@@ -42,7 +42,6 @@ const selectEpisode = async () => {
   const segments = transcription.transcription.segments
   setTranscriptSegments(segments)
   highlightWordlist()
-  console.log(segments)
 }
 
 const setTranscriptSegments = (segments) => {
@@ -50,6 +49,7 @@ const setTranscriptSegments = (segments) => {
 
   for (const segment of segments) {
     const segmentElement = document.createElement('span')
+    segmentElement.addEventListener('click', selectSegment)
     segmentElement.classList.add('transcript-segment')
     segmentElement.dataset.id = segment.id
     segmentElement.dataset.start = segment.start
@@ -58,6 +58,12 @@ const setTranscriptSegments = (segments) => {
 
     transcriptContainer.appendChild(segmentElement)
   }
+}
+
+const selectSegment = (e) => {
+  const segment = e.target
+  const selected = segment.getAttribute('aria-selected') === 'true'
+  segment.setAttribute('aria-selected', !selected)
 }
 
 const highlightWordlist = () => {
