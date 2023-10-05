@@ -10,7 +10,7 @@ type Transcription = { episodeId: string; transcription: TranscriptionData }
 
 export default class Transcriptions {
   private static podcastsPath = `../data/podcasts/`
-  public transcriptions: { podcast: Meta; episode: ExpandedEpisode; transcription: Transcription }[] = []
+  public static transcriptions: { podcast: Meta & { id: string }; episode: ExpandedEpisode; transcription: Transcription }[] = []
 
   constructor() {
     const podcasts = Transcriptions.loadPodcasts()
@@ -19,11 +19,13 @@ export default class Transcriptions {
       const episodes = Transcriptions.loadEpisodes(podcast)
       const transcriptions = episodes.map(Transcriptions.loadTranscription).filter((transcription) => transcription !== null) as Transcription[]
 
-      this.transcriptions = transcriptions.map((transcription) => ({
-        podcast: podcast.metadata,
-        episode: episodes.find((episode) => episode.id === transcription.episodeId)!.metadata,
-        transcription
-      }))
+      Transcriptions.transcriptions.push(
+        ...transcriptions.map((transcription) => ({
+          podcast: { ...podcast.metadata, id: podcast.id },
+          episode: episodes.find((episode) => episode.id === transcription.episodeId)!.metadata,
+          transcription
+        }))
+      )
     })
   }
 
