@@ -23,6 +23,7 @@ const selectPodcast = async () => {
   const response = await fetch(`/podcasts/${selectedPodcastId}/episodes`)
   const episodes = await response.json()
 
+  episodes.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate))
   episodes.forEach((episode) => {
     const option = document.createElement('option')
     option.value = episode.id
