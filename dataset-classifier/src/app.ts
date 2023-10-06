@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import Http from './http'
 import Transcriptions from './transcriptions'
 
