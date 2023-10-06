@@ -1,6 +1,8 @@
 import os
 import pickle
 
+from tensorflow.keras.preprocessing.text import Tokenizer as KerasTokenizer
+
 
 class Tokenizer:
     max_sequence_length = 1000  # Maximum length of a sequence
@@ -11,7 +13,7 @@ class Tokenizer:
         if self.pickle_file_exists():
             self.load_tokenizer()
         else:
-            self.tokenizer = Tokenizer(num_words=self.max_words)
+            self.tokenizer = KerasTokenizer(num_words=self.max_words)
 
     def fit_on_texts(self, texts):
         self.tokenizer.fit_on_texts(texts)

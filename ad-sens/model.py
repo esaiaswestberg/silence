@@ -8,8 +8,12 @@ class Model:
     model = Sequential()
 
     def __init__(__self__, max_words, max_sequence_length):
-        __self__.model.add(Embedding(max_words, 32, input_length=max_sequence_length))
+        __self__.model.add(Embedding(max_words, 128, input_length=max_sequence_length))
         __self__.model.add(Flatten())
+        __self__.model.add(Dense(256, activation="relu"))
+        __self__.model.add(Dense(256, activation="relu"))
+        __self__.model.add(Dense(64, activation="relu"))
+        __self__.model.add(Dense(64, activation="relu"))
         __self__.model.add(Dense(32, activation="relu"))
         __self__.model.add(Dense(1, activation="sigmoid"))
 
